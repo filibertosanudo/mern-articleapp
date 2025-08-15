@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { Login } from './Login.jsx'
+import { Rutas } from './Rutas.jsx'
 
 createRoot(document.getElementById('root')).render(
-    <Login />
+    <Rutas />
 )
