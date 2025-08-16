@@ -20,14 +20,19 @@ export class UsuarioController {
     }
 
     login = async (request, response) => {
-        const datosAuth = request.body;
-        const usuario = await this.modelo.login(datosAuth);
+        try {
+            const datosAuth = request.body;
+            const usuario = await this.modelo.login(datosAuth);
 
-        if (usuario) {
-            response.json(usuario);
-        }
-        else {
-            response.status(400).json('Error al iniciar sesión: ' + usuario);
+            if (usuario) {
+                return response.json(usuario);
+            } else {
+                return response.status(400).json({ error: 'Usuario o contraseña incorrectos' });
+            }
+        } catch (error) {
+            console.error("Error en login:", error);
+            return response.status(500).json({ error: 'Error interno del servidor' });
         }
     }
+
 }
