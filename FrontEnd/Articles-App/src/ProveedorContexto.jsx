@@ -6,19 +6,21 @@ export const ProveedorContexto = (props) => {
 
     const [usuarioAuth, setUsuarioAuth] = useState(null);
 
-    useEffect(async () => {
+    const usrStorage = () => {
         const usuario = localStorage.getItem('usuario');
 
         if (!usuario) {
             return false;
         }
 
-        setUsuarioAuth(JSON.parse(usuario));
-    }, []
-    )
+        setUsuarioAuth(JSON.parse(usuario));}
+    
+    useEffect(() => {
+        usrStorage();
+    }, [])
 
     return (
-        <AuthContext.Provider value={[usuarioAuth, setUsuarioAuth]}>
+        <AuthContext.Provider value={[usuarioAuth, usrStorage]}>
             {props.children}
         </AuthContext.Provider>
     )
