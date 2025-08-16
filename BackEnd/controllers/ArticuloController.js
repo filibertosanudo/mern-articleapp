@@ -6,19 +6,19 @@ export class ArticuloController {
         this.modelo = modelo;
     }
 
-    getAll = async  (request, response) => { 
+    getAll = async (request, response) => {
         {
             response.json(await this.modelo.getAll());
         }
     }
 
-    getOneById = async (request, response)  => {
+    getOneById = async (request, response) => {
         {
             const id = request.params.id;
             const articulo = await this.modelo.getOneById(id);
-            
+
             if (articulo) {
-            response.json(articulo);
+                response.json(articulo);
             } else {
                 response.status(404).json({ error: 'Artículo no encontrado' });
             }
@@ -28,7 +28,7 @@ export class ArticuloController {
     delete = async (request, response) => {
         const id = request.params.id;
         const nuevosArticulos = await this.modelo.delete(id);
-        
+
         if (nuevosArticulos) {
             response.json(nuevosArticulos);
         } else {
@@ -38,17 +38,14 @@ export class ArticuloController {
 
 
     create = async (request, response) => {
-        {
-            const articulo = validarArticulo(request.body);
+        const articulo = validarArticulo(request.body);
 
-            if(articulo.error) {
-            response.status(400).json("Validación incorrecta");
-            }
-
-            const nuevoArticulo = await this.modelo.create(articulo);
-            
-            response.json(nuevoArticulo);
+        if (!articulo.success) {
+            return response.status(400).json("Validación incorrecta");
         }
+
+        const nuevoArticulo = await this.modelo.create(articulo);
+        response.json(nuevoArticulo);
     }
 
     update = async (request, response) => {
